@@ -1,4 +1,4 @@
-import { ConvexError, v } from "convex/values";
+import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getAuthendicatedUser } from "./user";
 
@@ -27,9 +27,8 @@ export const toggleBookmark = mutation({
   },
 });
 
-export const getBookmarks = query({
-  args: { postId: v.id("posts") },
-  handler: async (ctx, args) => {
+export const getBookmarkedPost = query({
+  handler: async (ctx) => {
     const currentUser = await getAuthendicatedUser(ctx);
 
     const bookmarks = await ctx.db
@@ -45,6 +44,9 @@ export const getBookmarks = query({
       })
     );
 
-    return bookmarksWithInfo;
+    // Filter out any null posts
+    return bookmarksWithInfo.filter(
+      (post): post is NonNullable<typeof post> => post !== null
+    );
   },
 });
