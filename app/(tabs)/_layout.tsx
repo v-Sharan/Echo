@@ -1,8 +1,8 @@
+import { MyTheme } from "@/constants/Colors";
 import { useAuth } from "@clerk/clerk-expo";
-import { Redirect, Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTheme } from "@react-navigation/native";
-import { MyTheme } from "@/constants/Colors";
+import { Redirect, Tabs } from "expo-router";
 
 const TabsLayout = () => {
   const { isSignedIn } = useAuth();
@@ -18,7 +18,7 @@ const TabsLayout = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.text,
+        tabBarInactiveTintColor: colors.border,
       }}
     >
       <Tabs.Screen

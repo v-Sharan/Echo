@@ -1,6 +1,6 @@
 import {
-  DarkTheme as NavigationDarkTheme,
   DefaultTheme,
+  DarkTheme as NavigationDarkTheme,
   type Theme,
 } from "@react-navigation/native";
 
@@ -23,7 +23,7 @@ const DarkTheme: MyTheme = {
     text: "#F5E7D2",
     surface: "#1A1A1A",
     surfaceLight: "#7B7B7B",
-    tabBarInactive: "rgba(170, 248, 199, 0.15)",
+    tabBarInactive: "rgba(90, 140, 109, 0.15)",
   },
 };
 
@@ -36,7 +36,7 @@ const LightTheme: MyTheme = {
     background: "rgb(242, 242, 242)",
     surface: "rgb(182, 178, 178)",
     surfaceLight: "#9FA3AF",
-    tabBarInactive: "rgba(170, 248, 199, 0.15)",
+    tabBarInactive: "rgba(90, 140, 109, 0.15)",
   },
 };
 
