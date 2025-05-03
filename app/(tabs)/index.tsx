@@ -1,10 +1,15 @@
-import { View, Text, Loader, CommentsModel } from "@/components";
+import { CommentsModel, Loader, Text, View } from "@/components";
 import { MyTheme } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
+import { PostProps } from "@/types/post.types";
 import { useClerk, useUser } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { useMutation, useQuery } from "convex/react";
+import { formatDistanceToNow } from "date-fns";
+import { Image } from "expo-image";
+import { Link } from "expo-router";
+import { useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -13,11 +18,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { Image } from "expo-image";
-import { Link } from "expo-router";
-import { PostProps } from "@/types/post.types";
-import { useState } from "react";
-import { formatDistanceToNow } from "date-fns";
 
 const { width } = Dimensions.get("window");
 
@@ -36,7 +36,7 @@ const Post = ({ post }: PostProps) => {
 
   const toggleBookmark = useMutation(api.bookmarks.toggleBookmark);
 
-  const deletePost = useMutation(api.post.deletePost);
+  const deletePostByUser = useMutation(api.post.deletePost);
 
   const handleToggleLike = async () => {
     try {
@@ -56,9 +56,10 @@ const Post = ({ post }: PostProps) => {
 
   const handleDeletePost = async () => {
     try {
-      await deletePost({ postId: post._id });
+      await deletePostByUser({ postId: post._id });
     } catch (err: any) {
-      Alert.alert(`Oops!. Error Occured in Liking a Post.${err?.message}`);
+      console.log(JSON.stringify(err, null, 2));
+      Alert.alert(`Oops!. Error Occured in Deleting a Post.${err?.message}`);
     }
   };
 
@@ -170,7 +171,7 @@ export default function Index() {
           { justifyContent: "center", alignItems: "center" },
         ]}
       >
-        <Text>Post not Found</Text>
+        <Text style={{ fontSize: 28 }}>Post not Found</Text>
       </View>
     );
 

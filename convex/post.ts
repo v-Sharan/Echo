@@ -134,11 +134,11 @@ export const deletePost = mutation({
   handler: async (ctx, args) => {
     const currentUser = await getAuthendicatedUser(ctx);
 
-    const posts = await ctx.db.get(args.postId);
+    const post = await ctx.db.get(args.postId);
 
-    if (!posts) throw new Error("Post not Found!.");
+    if (!post) throw new Error("Post not Found!.");
 
-    if (posts.userId !== currentUser._id)
+    if (post.userId !== currentUser._id)
       throw new Error("Not Authorizef for deleting this post");
 
     const likes = await ctx.db
@@ -168,7 +168,9 @@ export const deletePost = mutation({
       await ctx.db.delete(bookmark._id);
     }
 
-    await ctx.storage.delete(posts.storageId);
+    await ctx.storage.delete(post.storageId);
+
+    await ctx.db.delete(args.postId);
 
     await ctx.db.patch(currentUser._id, {
       posts: Math.max(0, (currentUser.posts || 1) - 1),

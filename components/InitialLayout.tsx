@@ -1,4 +1,4 @@
-import { useAuth, useClerk } from "@clerk/clerk-expo";
+import { useAuth } from "@clerk/clerk-expo";
 import { useTheme } from "@react-navigation/native";
 import { SplashScreen, Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -9,15 +9,10 @@ SplashScreen.preventAutoHideAsync();
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
-  const { signOut } = useClerk();
   const { dark, colors } = useTheme();
 
   const segments = useSegments();
   const router = useRouter();
-
-  useEffect(() => {
-    signOut();
-  }, []);
 
   useEffect(() => {
     if (!isLoaded) return;
