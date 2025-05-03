@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getAuthendicatedUser } from "./user";
 
@@ -194,5 +194,25 @@ export const deletePost = mutation({
     await ctx.db.patch(currentUser._id, {
       posts: Math.max(0, (currentUser.posts || 1) - 1),
     });
+  },
+});
+
+export const getPostByUser = query({
+  args: {
+    userId: v.optional(v.id("users")),
+  },
+  handler: async (ctx, args) => {
+    const user = args.userId
+      ? await ctx.db.get(args.userId)
+      : await getAuthendicatedUser(ctx);
+
+    if (!user) throw new ConvexError("User Not Found!.");
+
+    const posts = await ctx.db
+      .query("posts")
+      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .collect();
+
+    return posts;
   },
 });
