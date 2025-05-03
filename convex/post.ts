@@ -106,6 +106,16 @@ export const toogleLike = mutation({
     if (!post) throw new Error("Post not Found");
 
     if (existing) {
+      const notification = await ctx.db
+        .query("notification")
+        .withIndex("by_post_sender_type_receiver", (q) =>
+          q
+            .eq("postId", args.postId)
+            .eq("senderId", currentUser._id)
+            .eq("type", "like")
+        )
+        .unique();
+      if (notification) ctx.db.delete(notification._id);
       await ctx.db.delete(existing._id);
       await ctx.db.patch(args.postId, { likes: post.likes - 1 });
       return false;
@@ -166,6 +176,15 @@ export const deletePost = mutation({
 
     for (const bookmark of bookmarks) {
       await ctx.db.delete(bookmark._id);
+    }
+
+    const notifications = await ctx.db
+      .query("notification")
+      .withIndex("by_post", (q) => q.eq("postId", args.postId))
+      .collect();
+
+    for (const notification of notifications) {
+      await ctx.db.delete(notification._id);
     }
 
     await ctx.storage.delete(post.storageId);
