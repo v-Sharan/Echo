@@ -53,7 +53,8 @@ export default defineSchema({
   })
     .index("by_receiver", ["receiverId"])
     .index("by_post", ["postId"])
-    .index("by_post_sender_type_receiver", ["postId", "senderId", "type"]),
+    .index("by_post_sender_type_receiver", ["postId", "senderId", "type"])
+    .index("by_sender_type_receiver", ["senderId", "type", "receiverId"]),
 
   bookmarks: defineTable({
     userId: v.id("users"),

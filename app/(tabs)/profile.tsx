@@ -252,7 +252,7 @@ const profile = () => {
 
 export default profile;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: COLORS.background,
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
     height: width,
   },
   followButton: {
-    // backgroundColor: COLORS.primary,
+    flex: 1,
     paddingHorizontal: 24,
     paddingVertical: 8,
     borderRadius: 8,

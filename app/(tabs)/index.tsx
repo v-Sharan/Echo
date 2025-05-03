@@ -66,7 +66,7 @@ const Post = ({ post }: PostProps) => {
   return (
     <View style={styles.post}>
       <View style={styles.postHeader}>
-        <Link href={"/(tabs)/Notification"} asChild>
+        <Link href={`/user/${post.author._id}`} asChild>
           <TouchableOpacity style={styles.postHeader}>
             <Image
               source={post.author.image}
