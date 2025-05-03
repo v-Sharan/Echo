@@ -1,26 +1,43 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+import {
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme,
+  type Theme,
+} from "@react-navigation/native";
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+export interface MyTheme extends Theme {
+  colors: Theme["colors"] & {
+    secondary: string;
+    surface: string;
+    surfaceLight: string;
+    tabBarInactive: string;
+  };
+}
 
-export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+const DarkTheme: MyTheme = {
+  ...NavigationDarkTheme,
+  colors: {
+    ...NavigationDarkTheme.colors,
+    primary: "#4ADE80",
+    secondary: "#2DD4BF",
+    background: "#181818",
+    text: "#F5E7D2",
+    surface: "#1A1A1A",
+    surfaceLight: "#7B7B7B",
+    tabBarInactive: "rgba(170, 248, 199, 0.15)",
   },
 };
+
+const LightTheme: MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#23BA5B",
+    secondary: "#2DD4BF",
+    background: "rgb(242, 242, 242)",
+    surface: "rgb(182, 178, 178)",
+    surfaceLight: "#9FA3AF",
+    tabBarInactive: "rgba(170, 248, 199, 0.15)",
+  },
+};
+
+export { DarkTheme, LightTheme };
