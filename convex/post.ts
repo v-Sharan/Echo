@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { getAuthendicatedUser } from "./user";
 
@@ -132,6 +133,10 @@ export const toogleLike = mutation({
           senderId: currentUser._id,
           type: "like",
           postId: args.postId,
+        });
+        await ctx.runMutation(internal.notifications.sendPushNotification, {
+          to: post.userId,
+          title: `${currentUser.username} is liked your post`,
         });
       }
       return true;

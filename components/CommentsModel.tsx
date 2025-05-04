@@ -1,8 +1,12 @@
+import { MyTheme } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { Feather, Ionicons } from "@expo/vector-icons";
+import { useTheme } from "@react-navigation/native";
 import { useMutation, useQuery } from "convex/react";
 import React, { useState } from "react";
 import {
+  Alert,
   FlatList,
   KeyboardAvoidingView,
   Modal,
@@ -10,16 +14,11 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Dimensions,
-  Alert,
 } from "react-native";
+import Comment from "./Comment";
+import Loader from "./Loader";
 import Text from "./Text";
 import View from "./View";
-import { useTheme } from "@react-navigation/native";
-import { MyTheme } from "@/constants/Colors";
-import { Feather, Ionicons } from "@expo/vector-icons";
-import Loader from "./Loader";
-import Comment from "./Comment";
 
 type CommentProps = {
   postId: Id<"posts">;
@@ -27,8 +26,6 @@ type CommentProps = {
   onClose: () => void;
   onCommentAdded: () => void;
 };
-
-const { width } = Dimensions.get("screen");
 
 const CommentsModel = ({
   postId,

@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 
@@ -137,6 +138,11 @@ export const toggleFollow = mutation({
         receiverId: args.followingId,
         senderId: currentUser._id,
         type: "follow",
+      });
+
+      await ctx.runMutation(internal.notifications.sendPushNotification, {
+        to: args.followingId,
+        title: `${currentUser.username} is Followed you`,
       });
     }
   },

@@ -5,6 +5,7 @@ import { useUser } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { useMutation } from "convex/react";
+import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
@@ -20,7 +21,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import * as FileSystem from "expo-file-system";
 
 const { width } = Dimensions.get("window");
 
@@ -191,7 +191,6 @@ const CreateBlog = () => {
                   transition={200}
                 />
                 <TextInput
-                  onPress={() => console.log("Textinput")}
                   style={[styles.captionInput, { color: colors.text }]}
                   placeholder="Write a caption...."
                   placeholderTextColor={colors.text}

@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { getAuthendicatedUser } from "./user";
 
@@ -31,6 +32,10 @@ export const addComments = mutation({
         type: "comment",
         postId: args.postId,
         commentId: commentId,
+      });
+      await ctx.runMutation(internal.notifications.sendPushNotification, {
+        to: post.userId,
+        title: `${currentUser.username} is Commented your post.comment: ${args.content}`,
       });
     }
 

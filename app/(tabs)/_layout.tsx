@@ -1,8 +1,12 @@
 import { MyTheme } from "@/constants/Colors";
+import { api } from "@/convex/_generated/api";
+import { usePushNotifications } from "@/hooks/usePushExpoNotification";
 import { useAuth } from "@clerk/clerk-expo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTheme } from "@react-navigation/native";
+import { useMutation } from "convex/react";
 import { Redirect, Tabs } from "expo-router";
+import { useEffect } from "react";
 
 const TabsLayout = () => {
   const { isSignedIn } = useAuth();
@@ -11,6 +15,21 @@ const TabsLayout = () => {
   if (!isSignedIn) {
     return <Redirect href={"/(auth)/login"} />;
   }
+  const expotoken = usePushNotifications();
+  const recordNotification = useMutation(
+    api.notifications.recordPushNotificationToken
+  );
+
+  useEffect(() => {
+    if (!expotoken) return;
+    (async () => {
+      try {
+        await recordNotification({ token: expotoken });
+      } catch (e: any) {
+        console.log("Error in Record", e);
+      }
+    })();
+  }, [expotoken]);
 
   return (
     <Tabs
